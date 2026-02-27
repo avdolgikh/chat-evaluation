@@ -36,6 +36,7 @@ class EvaluatorConfig:
 
     # Trace Fetching Configuration
     trace_name_filter: str = "chat_trace"  # Filter for trace name
+    user_id_prefix_filter: str = ""  # Optional user_id prefix filter (e.g., offline-eval-service-)
     max_session_pages: int = 10  # Maximum pages to fetch for sessions
 
     # Execution Mode

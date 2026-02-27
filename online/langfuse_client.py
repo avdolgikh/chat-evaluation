@@ -491,6 +491,7 @@ class LangfuseClient:
             session_traces_map = defaultdict(list)
             skipped_env = 0
             skipped_type = 0
+            skipped_user = 0
             type_counts = defaultdict(int)
             env_counts = defaultdict(int)
             for trace in all_traces:
@@ -498,6 +499,7 @@ class LangfuseClient:
                 trace_type = trace_metadata.get('mode', '')
                 # Environment is a top-level field on trace object (NOT in metadata)
                 trace_env = getattr(trace, 'environment', '') or ''
+                trace_user_id = getattr(trace, 'user_id', None) or ''
                 session_id = getattr(trace, 'session_id', None)
 
                 # Track stats for debugging
@@ -514,6 +516,12 @@ class LangfuseClient:
                     skipped_env += 1
                     continue
 
+                # Optional user_id prefix filter (used by offline eval traffic isolation)
+                if config.user_id_prefix_filter:
+                    if not trace_user_id.startswith(config.user_id_prefix_filter):
+                        skipped_user += 1
+                        continue
+
                 if session_id:
                     session_traces_map[session_id].append(trace)
 
@@ -524,6 +532,8 @@ class LangfuseClient:
                 logger.info(f"Skipped {skipped_type} traces with non-valid type (valid: {VALID_TYPES})")
             if skipped_env > 0:
                 logger.info(f"Skipped {skipped_env} traces with non-matching environment (looking for: {config.source_environment})")
+            if skipped_user > 0:
+                logger.info(f"Skipped {skipped_user} traces with non-matching user_id prefix (looking for: {config.user_id_prefix_filter})")
 
             logger.info(f"Found {len(session_traces_map)} sessions with chat traces")
 

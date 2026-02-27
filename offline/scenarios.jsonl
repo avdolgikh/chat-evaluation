@@ -1,0 +1,5 @@
+{"id":"billing_refund_001","persona":"impatient customer","goal":"get refund eligibility and next steps","constraints":["does not know order id","is upset"],"max_turns":8,"must_include":["refund policy","required info"],"must_avoid":["guaranteed instant refund"]}
+{"id":"password_reset_001","persona":"busy user","goal":"reset account password quickly","constraints":["on mobile device"],"max_turns":6,"must_include":["verification","reset link"]}
+{"id":"shipping_delay_001","persona":"concerned buyer","goal":"understand delivery delay and options","constraints":["needs item this week"],"max_turns":8,"must_include":["timeline","alternative"]}
+{"id":"subscription_cancel_001","persona":"frustrated subscriber","goal":"cancel plan without confusion","constraints":["wants no upsell"],"max_turns":7,"must_include":["cancellation steps","effective date"]}
+{"id":"tech_support_001","persona":"non-technical user","goal":"fix app login issue","constraints":["cannot reinstall app"],"max_turns":9,"must_include":["step-by-step","diagnostic question"]}
